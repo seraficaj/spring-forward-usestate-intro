@@ -4,6 +4,30 @@ import axios from "axios";
 function Joke() {
     // state value to update when API responds
     const [joke, setJoke] = useState("");
+    const [pressedKey, setPressedKey] = useState("");
+    const [counter, setCounter] = useState(0);
+
+    useEffect(() => {
+        // the function needs a name
+        const handleKeyDown = (e) => setPressedKey(e.key);
+        // mount the event lisener on the window
+        window.addEventListener("keydown", handleKeyDown);
+        return () => {
+            window.removeEventListener("keydown", handleKeyDown);
+        };
+        // unmount the event listener to clean up
+    }, [pressedKey]);
+
+    // using intervals in react
+    useEffect(() => {
+        const incrementCounter = () => setCounter(counter + 1);
+        const counterInterval = setInterval(incrementCounter, 500);
+        return () => {
+            // clean up window here
+            clearInterval(counterInterval)
+        };
+    }, [counter]);
+
     useEffect(() => {
         // IIFE to have joke loaded  on component mount
         (async () => {
@@ -41,6 +65,12 @@ function Joke() {
             <h2>Display Jokes Here:</h2>
             <h3>{joke}</h3>
             <button onClick={handleGetNewJoke}>Get new joke</button>
+            <div>
+                <h2>The pressed key is: {pressedKey}</h2>
+            </div>
+            <div>
+                <h2>Counter: {counter}</h2>
+            </div>
         </div>
     );
 }
