@@ -1,9 +1,13 @@
-import Counter from './Counter';
+import Counter from "./Counter";
+import Joke from "./Joke";
 
 function App() {
-  return (
-    <><Counter/></>
-  );
+    return (
+        <>
+            <Counter />
+            <Joke />
+        </>
+    );
 }
 
 export default App;
